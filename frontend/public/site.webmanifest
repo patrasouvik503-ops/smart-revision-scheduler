@@ -1,0 +1,10 @@
+{
+  "name": "Smart Revision Scheduler",
+  "short_name": "Smart Revision",
+  "description": "Automatic spaced revision reminders for students.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#176b87",
+  "icons": []
+}

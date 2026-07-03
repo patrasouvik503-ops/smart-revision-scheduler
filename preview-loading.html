@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Revision Scheduler Preview</title>
+    <link rel="stylesheet" href="./frontend/src/styles.css" />
+    <style>
+      .preview-loader {
+        display: grid;
+        gap: 12px;
+      }
+
+      .skeleton {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #e7edf3;
+      }
+
+      .skeleton::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        transform: translateX(-100%);
+        animation: shimmer 1.35s infinite;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+      }
+
+      .skeleton.stat-line {
+        width: 72%;
+        height: 18px;
+      }
+
+      .skeleton.stat-value {
+        width: 48%;
+        height: 32px;
+        margin-top: 12px;
+      }
+
+      .skeleton.row-title {
+        width: 46%;
+        height: 17px;
+      }
+
+      .skeleton.row-meta {
+        width: 62%;
+        height: 13px;
+        margin-top: 8px;
+      }
+
+      @keyframes shimmer {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">SR</span>
+          <span>Smart Revision</span>
+        </div>
+        <button class="nav-btn active">Dashboard</button>
+        <button class="nav-btn">Add Topic</button>
+        <button class="nav-btn">Calendar</button>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Spaced revision planner</p>
+            <h1>Smart Revision Scheduler</h1>
+          </div>
+          <div class="topbar-actions">
+            <div class="search-box">
+              <input placeholder="Search today" />
+            </div>
+            <button class="icon-btn" title="Send browser notification">!</button>
+          </div>
+        </header>
+
+        <section class="stats-grid">
+          <div class="stat">
+            <span>Topics Learned</span>
+            <div class="skeleton stat-value"></div>
+          </div>
+          <div class="stat">
+            <span>Revisions Completed</span>
+            <div class="skeleton stat-value"></div>
+          </div>
+          <div class="stat">
+            <span>Current Streak</span>
+            <div class="skeleton stat-value"></div>
+          </div>
+          <div class="stat">
+            <span>Memory Score</span>
+            <div class="skeleton stat-value"></div>
+          </div>
+        </section>
+
+        <section class="main-grid">
+          <div class="panel">
+            <div class="panel-heading">
+              <h2>Today's Revisions</h2>
+              <span>...</span>
+            </div>
+            <div class="preview-loader">
+              <div class="revision-row">
+                <button class="complete-btn">✓</button>
+                <div>
+                  <div class="skeleton row-title"></div>
+                  <div class="skeleton row-meta"></div>
+                </div>
+              </div>
+              <div class="revision-row">
+                <button class="complete-btn">✓</button>
+                <div>
+                  <div class="skeleton row-title"></div>
+                  <div class="skeleton row-meta"></div>
+                </div>
+              </div>
+              <div class="revision-row">
+                <button class="complete-btn">✓</button>
+                <div>
+                  <div class="skeleton row-title"></div>
+                  <div class="skeleton row-meta"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-heading">
+              <h2>Upcoming</h2>
+            </div>
+            <div class="upcoming-group">
+              <h3>Tomorrow (...)</h3>
+              <div class="upcoming-item">
+                <span><span class="skeleton stat-line"></span></span>
+                <strong><span class="skeleton row-title"></span></strong>
+              </div>
+            </div>
+            <div class="upcoming-group">
+              <h3>Next Week (...)</h3>
+              <div class="upcoming-item">
+                <span><span class="skeleton stat-line"></span></span>
+                <strong><span class="skeleton row-title"></span></strong>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
