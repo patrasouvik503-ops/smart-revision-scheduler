@@ -30,7 +30,7 @@ public class EmailService {
     public boolean sendOtp(String email, String otp, String purposeLabel) {
         if (!mailEnabled) {
             log.info("Development {} OTP for {} is {}", purposeLabel, email, otp);
-            return true;
+            return false;
         }
 
         try {
