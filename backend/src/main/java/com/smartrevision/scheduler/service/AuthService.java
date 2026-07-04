@@ -185,8 +185,8 @@ public class AuthService {
         loginOtp.setExpiresAt(Instant.now().plus(otpExpiryMinutes, ChronoUnit.MINUTES));
         loginOtpRepository.save(loginOtp);
 
-        emailService.sendOtp(email, otp, purposeLabel);
-        return emailService.isMailEnabled() ? null : otp;
+        boolean delivered = emailService.sendOtp(email, otp, purposeLabel);
+        return delivered ? null : otp;
     }
 
     private void consumeOtp(String email, String otp, OtpPurpose purpose) {
