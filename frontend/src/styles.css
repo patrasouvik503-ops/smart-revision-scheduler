@@ -108,8 +108,16 @@ select {
   display: block;
 }
 
-.drawer-close .hamburger {
-  display: inline-flex;
+.drawer-close {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #0f172a;
+  font-size: 18px;
+  display: grid;
+  place-items: center;
 }
 
 .drawer-search {
@@ -137,10 +145,10 @@ select {
 
 .drawer-item {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
   padding: 16px;
   border: 1px solid #e5e7eb;
   border-radius: 14px;
@@ -150,10 +158,21 @@ select {
   cursor: pointer;
 }
 
+.drawer-item-icon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #eef2ff;
+  color: #6366f1;
+}
+
 .drawer-secondary {
   display: grid;
   gap: 8px;
-  padding-top: 10px;
+  padding-top: 16px;
   border-top: 1px solid #e5e7eb;
 }
 
@@ -161,36 +180,13 @@ select {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 14px 16px;
   border-radius: 14px;
   background: #f8fafc;
   color: #0f172a;
   border: 1px solid #e5e7eb;
   font-weight: 600;
-}
-
-.drawer-footer {
-  margin-top: auto;
-  display: grid;
-  gap: 12px;
-  color: #64748b;
-}
-
-.social-links {
-  display: flex;
-  gap: 10px;
-}
-
-.social-links button {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  color: #0f172a;
 }
 
 .hamburger {

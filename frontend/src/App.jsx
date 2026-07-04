@@ -287,12 +287,10 @@ function App() {
             <div className="drawer-header">
               <div>
                 <span className="brand-mark">SR</span>
-                <strong>SR Smart Revision</strong>
+                <strong>Navigation</strong>
               </div>
-              <button className="hamburger active drawer-close" onClick={closeMenu} aria-label="Close menu">
-                <span />
-                <span />
-                <span />
+              <button className="drawer-close" onClick={closeMenu} title="Close menu">
+                ✕
               </button>
             </div>
             <div className="drawer-search">
@@ -304,78 +302,28 @@ function App() {
               />
             </div>
             <div className="drawer-content">
-              <button className="drawer-item" onClick={() => { setActiveView('dashboard'); closeMenu(); }}>
-                <span>Dashboard</span>
-                <ChevronRight size={18} />
-              </button>
               <button className="drawer-item" onClick={() => { setActiveView('add'); closeMenu(); }}>
+                <div className="drawer-item-icon"><Plus size={18} /></div>
                 <span>Add Topic</span>
                 <ChevronRight size={18} />
               </button>
               <button className="drawer-item" onClick={() => { setActiveView('calendar'); closeMenu(); }}>
+                <div className="drawer-item-icon"><CalendarDays size={18} /></div>
                 <span>Calendar</span>
                 <ChevronRight size={18} />
               </button>
               <button className="drawer-item" onClick={() => { setActiveView('statistics'); closeMenu(); }}>
+                <div className="drawer-item-icon"><BarChart3 size={18} /></div>
                 <span>Statistics</span>
                 <ChevronRight size={18} />
               </button>
             </div>
             <div className="drawer-secondary">
-              <button className="secondary-link" onClick={() => { setActiveView('settings'); closeMenu(); }}>
-                <Settings size={18} />
-                Settings
-              </button>
-              <button className="secondary-link" onClick={() => { handleLogout(); closeMenu(); }}>
-                <LogOut size={18} />
-                Log out
-              </button>
-            </div>
-            <div className="drawer-footer">
-              <span>Follow Us</span>
-              <div className="social-links">
-                <button aria-label="Twitter"><Twitter size={18} /></button>
-                <button aria-label="Instagram"><Instagram size={18} /></button>
-                <button aria-label="Facebook"><Facebook size={18} /></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={menuOpen ? 'drawer open' : 'drawer'}>
-          <div className="drawer-overlay" onClick={closeMenu} />
-          <div className="drawer-panel">
-            <div className="drawer-header">
-              <div>
-                <span className="brand-mark">SR</span>
-                <strong>Navigation</strong>
-              </div>
-              <button className="icon-btn secondary drawer-close" onClick={closeMenu} title="Close menu">
-                ✕
-              </button>
-            </div>
-            <div className="drawer-content">
-              <button className={activeView === 'dashboard' ? 'nav-btn active' : 'nav-btn'} onClick={() => { setActiveView('dashboard'); closeMenu(); }}>
-                <LayoutDashboard size={18} />
-                Dashboard
-              </button>
-              <button className={activeView === 'add' ? 'nav-btn active' : 'nav-btn'} onClick={() => { setActiveView('add'); closeMenu(); }}>
-                <Plus size={18} />
-                Add Topic
-              </button>
-              <button className={activeView === 'calendar' ? 'nav-btn active' : 'nav-btn'} onClick={() => { setActiveView('calendar'); closeMenu(); }}>
-                <CalendarDays size={18} />
-                Calendar
-              </button>
-              <button className={activeView === 'statistics' ? 'nav-btn active' : 'nav-btn'} onClick={() => { setActiveView('statistics'); closeMenu(); }}>
-                <BarChart3 size={18} />
-                Statistics
-              </button>
-              <button className="nav-btn" onClick={() => { setDarkMode((value) => !value); closeMenu(); }}>
-                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+              <button className="secondary-link" onClick={() => { setDarkMode((value) => !value); closeMenu(); }}>
+                <Moon size={18} />
                 {darkMode ? 'Light mode' : 'Dark mode'}
               </button>
-              <button className="nav-btn" onClick={() => { handleLogout(); closeMenu(); }}>
+              <button className="secondary-link" onClick={() => { handleLogout(); closeMenu(); }}>
                 <LogOut size={18} />
                 Log out
               </button>
