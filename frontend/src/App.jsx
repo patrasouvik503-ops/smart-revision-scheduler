@@ -109,7 +109,16 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [darkMode, setDarkMode] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [selectedNotes, setSelectedNotes] = useState(null);
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
+  function toggleMenu() {
+    setMenuOpen((value) => !value);
+  }
 
   async function refresh() {
     setLoading(true);
@@ -227,6 +236,9 @@ function App() {
             <h1>Smart Revision Scheduler</h1>
           </div>
           <div className="topbar-actions">
+            <button className="icon-btn mobile-hamburger" onClick={toggleMenu} title="Open menu">
+              <Menu size={18} />
+            </button>
             <div className="search-box">
               <Search size={17} />
               <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search today" />
@@ -246,6 +258,47 @@ function App() {
             </button>
           </div>
         </header>
+
+        <div className={menuOpen ? 'drawer open' : 'drawer'}>
+          <div className="drawer-overlay" onClick={closeMenu} />
+          <div className="drawer-panel">
+            <div className="drawer-header">
+              <div>
+                <span className="brand-mark">SR</span>
+                <strong>Navigation</strong>
+              </div>
+              <button className="icon-btn secondary drawer-close" onClick={closeMenu} title="Close menu">
+                ✕
+              </button>
+            </div>
+            <div className="drawer-content">
+              <button className={activeView === 'dashboard' ? 'nav-btn active' : 'nav-btn'} onClick={() => { setActiveView('dashboard'); closeMenu(); }}>
+                <LayoutDashboard size={18} />
+                Dashboard
+              </button>
+              <button className={activeView === 'add' ? 'nav-btn active' : 'nav-btn'} onClick={() => { setActiveView('add'); closeMenu(); }}>
+                <Plus size={18} />
+                Add Topic
+              </button>
+              <button className={activeView === 'calendar' ? 'nav-btn active' : 'nav-btn'} onClick={() => { setActiveView('calendar'); closeMenu(); }}>
+                <CalendarDays size={18} />
+                Calendar
+              </button>
+              <button className={activeView === 'statistics' ? 'nav-btn active' : 'nav-btn'} onClick={() => { setActiveView('statistics'); closeMenu(); }}>
+                <BarChart3 size={18} />
+                Statistics
+              </button>
+              <button className="nav-btn" onClick={() => { setDarkMode((value) => !value); closeMenu(); }}>
+                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+                {darkMode ? 'Light mode' : 'Dark mode'}
+              </button>
+              <button className="nav-btn" onClick={() => { handleLogout(); closeMenu(); }}>
+                <LogOut size={18} />
+                Log out
+              </button>
+            </div>
+          </div>
+        </div>
 
         {activeView === 'dashboard' && (
           <Dashboard
