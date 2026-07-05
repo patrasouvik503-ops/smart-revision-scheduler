@@ -42,7 +42,7 @@ public class EmailService {
             mailSender.send(message);
             return true;
         } catch (MailException exception) {
-            log.warn("Failed to send {} OTP to {}: {}", purposeLabel, email, exception.getMessage());
+            log.warn("Failed to send {} OTP to {}", purposeLabel, email, exception);
             return false;
         }
     }
