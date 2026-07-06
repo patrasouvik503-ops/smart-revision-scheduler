@@ -324,6 +324,14 @@ function App() {
               </button>
             </div>
             <div className="drawer-secondary">
+              <button className="secondary-link" onClick={() => { handleNotify(); closeMenu(); }}>
+                <Bell size={18} />
+                Notifications
+              </button>
+              <button className="secondary-link" type="button">
+                <UserCircle size={18} />
+                Profile
+              </button>
               <button className="secondary-link" onClick={() => { setDarkMode((value) => !value); closeMenu(); }}>
                 <Moon size={18} />
                 {darkMode ? 'Light mode' : 'Dark mode'}

@@ -3345,3 +3345,107 @@ h1 {
     font-size: 12px;
   }
 }
+
+/* App navigation: use hamburger drawer on every authenticated viewport */
+.app-shell {
+  display: block;
+}
+
+.app-shell .sidebar,
+.app-shell .topbar,
+.app-shell .topbar-actions,
+.app-shell .profile-chip {
+  display: none !important;
+}
+
+.app-shell .mobile-topbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 35;
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  min-height: 70px;
+  padding: 14px 28px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+.app-shell .drawer {
+  display: block;
+  pointer-events: none;
+}
+
+.app-shell .drawer.open {
+  pointer-events: auto;
+}
+
+.app-shell .drawer-overlay {
+  opacity: 0;
+  background: rgba(15, 23, 42, 0.58);
+  transition: opacity 240ms ease;
+}
+
+.app-shell .drawer.open .drawer-overlay {
+  opacity: 1;
+}
+
+.app-shell .drawer-panel {
+  width: min(360px, 86vw);
+  background: #fff;
+  color: #0f172a;
+}
+
+.app-shell .drawer-header > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-shell .drawer-close {
+  position: relative;
+  overflow: hidden;
+  color: transparent;
+}
+
+.app-shell .drawer-close::before,
+.app-shell .drawer-close::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: #0f172a;
+  content: "";
+}
+
+.app-shell .drawer-close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.app-shell .drawer-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.app-shell .drawer-search {
+  display: none;
+}
+
+.app-shell .content {
+  min-width: 0;
+  padding: 100px 30px 104px;
+}
+
+@media (max-width: 767px) {
+  .app-shell .mobile-topbar {
+    padding: 14px 16px;
+  }
+
+  .app-shell .content {
+    padding: 94px 16px 104px;
+  }
+}
