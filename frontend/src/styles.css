@@ -3287,3 +3287,61 @@ h1 {
     color: #0f172a;
   }
 }
+
+@media (max-width: 767px) {
+  .auth-screen {
+    padding: 12px;
+    background: #f7f8ff;
+  }
+
+  .auth-card,
+  .auth-card.register-card {
+    min-height: calc(100vh - 24px);
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .auth-header {
+    margin-bottom: 18px;
+  }
+
+  .auth-brand {
+    align-items: flex-start;
+  }
+
+  .auth-inner {
+    display: block;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .auth-illustration {
+    display: none;
+  }
+
+  .auth-form-side {
+    padding: 22px 18px;
+    border: 1px solid #dfe5f2;
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .auth-title {
+    margin-bottom: 20px;
+  }
+
+  .auth-title h1 {
+    font-size: 30px;
+  }
+
+  .auth-title p {
+    font-size: 15px;
+  }
+
+  .auth-footer {
+    padding-top: 18px;
+    font-size: 12px;
+  }
+}
