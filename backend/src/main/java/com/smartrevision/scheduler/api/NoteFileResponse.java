@@ -6,14 +6,16 @@ public record NoteFileResponse(
         Long id,
         String fileName,
         String contentType,
-        long sizeBytes
+        long sizeBytes,
+        String fileUrl
 ) {
     public static NoteFileResponse from(NoteFile noteFile) {
         return new NoteFileResponse(
                 noteFile.getId(),
                 noteFile.getOriginalFileName(),
                 noteFile.getContentType(),
-                noteFile.getSizeBytes()
+                noteFile.getSizeBytes(),
+                noteFile.getFileUrl()
         );
     }
 }

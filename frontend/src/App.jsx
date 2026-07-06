@@ -1566,6 +1566,11 @@ function AttachmentCard({ file }) {
           Open
         </a>
       )}
+      {!url && file.fileUrl && (
+        <a href={file.fileUrl} target="_blank" rel="noreferrer">
+          Open direct
+        </a>
+      )}
     </div>
   );
 }
