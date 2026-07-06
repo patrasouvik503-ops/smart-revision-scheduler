@@ -1991,6 +1991,10 @@ h1 {
   text-align: center;
 }
 
+.feature-card-landing > div {
+  display: contents;
+}
+
 .feature-card-landing span {
   display: grid;
   width: 72px;
@@ -2913,6 +2917,11 @@ h1 {
     column-gap: 14px;
     align-items: center;
     text-align: left;
+  }
+
+  .feature-card-landing > div {
+    display: block;
+    min-width: 0;
   }
 
   .feature-card-landing span {

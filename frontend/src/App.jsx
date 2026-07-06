@@ -689,8 +689,10 @@ function LoginScreen({ onLogin }) {
           ].map(([Icon, title, description]) => (
             <article className="feature-card-landing" key={title}>
               <span><Icon size={31} /></span>
-              <h3>{title}</h3>
-              <p>{description}</p>
+              <div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </div>
             </article>
           ))}
         </div>
