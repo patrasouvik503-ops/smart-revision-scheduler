@@ -220,14 +220,24 @@ function App() {
   return (
     <div className={darkMode ? 'app-shell theme-dark' : 'app-shell'}>
       <header className="mobile-topbar">
-        <button className={menuOpen ? 'hamburger active' : 'hamburger'} onClick={toggleMenu} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
-          <span />
-          <span />
-          <span />
-        </button>
-        <div className="mobile-brand">
-          <span className="brand-mark">SR</span>
-          <span>Smart Revision</span>
+        <div className="app-header-left">
+          <button className={menuOpen ? 'hamburger active' : 'hamburger'} onClick={toggleMenu} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
+            <span />
+            <span />
+            <span />
+          </button>
+          <div className="mobile-brand">
+            <span className="brand-mark">SR</span>
+            <span>Smart Revision</span>
+          </div>
+        </div>
+        <div className="app-header-actions">
+          <button className="header-action-btn" onClick={handleNotify} title="Notifications" aria-label="Notifications">
+            <Bell size={20} />
+          </button>
+          <button className="header-action-btn" type="button" title="Profile" aria-label="Profile">
+            <UserCircle size={21} />
+          </button>
         </div>
       </header>
 
@@ -324,14 +334,6 @@ function App() {
               </button>
             </div>
             <div className="drawer-secondary">
-              <button className="secondary-link" onClick={() => { handleNotify(); closeMenu(); }}>
-                <Bell size={18} />
-                Notifications
-              </button>
-              <button className="secondary-link" type="button">
-                <UserCircle size={18} />
-                Profile
-              </button>
               <button className="secondary-link" onClick={() => { setDarkMode((value) => !value); closeMenu(); }}>
                 <Moon size={18} />
                 {darkMode ? 'Light mode' : 'Dark mode'}
