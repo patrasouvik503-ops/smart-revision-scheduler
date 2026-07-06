@@ -366,6 +366,7 @@ function LoginScreen({ onLogin }) {
   const [mode, setMode] = useState('login');
   const [registerStep, setRegisterStep] = useState('details');
   const [resetStep, setResetStep] = useState('email');
+  const [landingMenuOpen, setLandingMenuOpen] = useState(false);
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -386,6 +387,7 @@ function LoginScreen({ onLogin }) {
     setMode(nextMode);
     setAuthPage('auth');
     setMessage('');
+    setLandingMenuOpen(false);
   }
 
   function backToLanding() {
@@ -536,7 +538,7 @@ function LoginScreen({ onLogin }) {
   }
 
   return (
-    <main className="landing-page">
+    <main className={landingMenuOpen ? 'landing-page landing-menu-open' : 'landing-page'}>
       <nav className="landing-nav">
         <a className="landing-brand" href="#home" aria-label="Smart Revision Scheduler home">
           <span className="landing-logo">
@@ -555,7 +557,23 @@ function LoginScreen({ onLogin }) {
           <button className="nav-login" type="button" onClick={() => openAuth('login')}>Log In</button>
           <button className="nav-primary" type="button" onClick={() => openAuth('register')}>Get Started</button>
         </div>
+        <button
+          className={landingMenuOpen ? 'landing-menu-toggle active' : 'landing-menu-toggle'}
+          type="button"
+          onClick={() => setLandingMenuOpen((current) => !current)}
+          aria-label={landingMenuOpen ? 'Close menu' : 'Open menu'}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </nav>
+      <div className="landing-mobile-menu">
+        <a href="#features" onClick={() => setLandingMenuOpen(false)}>Features</a>
+        <a href="#how-it-works" onClick={() => setLandingMenuOpen(false)}>How It Works</a>
+        <button type="button" onClick={() => openAuth('login')}>Log In</button>
+        <button type="button" onClick={() => openAuth('register')}>Get Started</button>
+      </div>
 
       <section id="home" className="landing-hero">
         <div className="hero-copy">
