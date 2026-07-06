@@ -1315,6 +1315,161 @@ h1 {
   font: inherit;
 }
 
+.notes-editor-card {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.notes-editor-card strong,
+.notes-editor-card small {
+  display: block;
+}
+
+.notes-editor-card strong {
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.notes-editor-card small {
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.notes-editor-card svg {
+  flex: 0 0 auto;
+  color: var(--muted);
+}
+
+.add-notes-screen {
+  min-height: calc(100vh - 60px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+}
+
+.add-notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.add-notes-header h2 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.back-btn {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 14px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.add-notes-panel {
+  display: grid;
+  grid-template-rows: minmax(280px, 1fr) auto auto auto;
+  gap: 16px;
+  min-height: calc(100vh - 170px);
+}
+
+.add-notes-panel label {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.add-notes-panel textarea {
+  min-height: 100%;
+  resize: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.7;
+}
+
+.upload-zone {
+  position: relative;
+  min-height: 118px;
+  align-content: center;
+  justify-items: center;
+  border: 1px dashed #a5b4fc;
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(79, 70, 229, 0.06);
+  text-align: center;
+}
+
+.upload-zone strong {
+  color: var(--primary-dark);
+  font-size: 18px;
+}
+
+.upload-zone small {
+  color: var(--muted);
+}
+
+.upload-zone input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.selected-file-list {
+  display: grid;
+  gap: 8px;
+}
+
+.selected-file-list div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--bg);
+}
+
+.selected-file-list span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 800;
+}
+
+.selected-file-list small {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-weight: 800;
+}
+
 .file-count {
   color: var(--muted);
   font-size: 13px;

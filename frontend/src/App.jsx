@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  ArrowLeft,
   ArrowRight,
   BarChart3,
   Bell,
@@ -1221,6 +1222,7 @@ function AddTopic({ onAdded }) {
   const [noteFiles, setNoteFiles] = useState([]);
   const [fileInputKey, setFileInputKey] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [notesEditorOpen, setNotesEditorOpen] = useState(false);
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -1264,6 +1266,63 @@ function AddTopic({ onAdded }) {
   }
 
   const schedule = created?.revisions?.length ? created.revisions : preview;
+
+  if (notesEditorOpen) {
+    return (
+      <section className="add-notes-screen">
+        <div className="add-notes-header">
+          <button className="back-btn" type="button" onClick={() => setNotesEditorOpen(false)}>
+            <ArrowLeft size={18} />
+            Back
+          </button>
+          <div>
+            <p className="eyebrow">Add Topic</p>
+            <h2>Notes & Files</h2>
+          </div>
+        </div>
+
+        <div className="panel add-notes-panel">
+          <label>
+            Notes
+            <textarea
+              value={form.notes}
+              onChange={(event) => updateField('notes', event.target.value)}
+              placeholder="Write important points, formulas, links, doubts, or revision hints here"
+              autoFocus
+            />
+          </label>
+
+          <label className="upload-zone">
+            <span>Upload PDF or Photos</span>
+            <strong>{noteFiles.length ? `${noteFiles.length} file${noteFiles.length === 1 ? '' : 's'} selected` : 'Choose files'}</strong>
+            <small>PDF, PNG, JPG, or WEBP</small>
+            <input
+              key={fileInputKey}
+              type="file"
+              multiple
+              accept="application/pdf,image/png,image/jpeg,image/webp"
+              onChange={(event) => setNoteFiles(Array.from(event.target.files || []))}
+            />
+          </label>
+
+          {noteFiles.length > 0 && (
+            <div className="selected-file-list">
+              {noteFiles.map((file) => (
+                <div key={`${file.name}-${file.size}`}>
+                  <span>{file.name}</span>
+                  <small>{formatFileSize(file.size)}</small>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <button className="primary-btn" type="button" onClick={() => setNotesEditorOpen(false)}>
+            Done
+          </button>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="form-layout">
@@ -1316,21 +1375,17 @@ function AddTopic({ onAdded }) {
             ))}
           </div>
         </label>
-        <label>
-          Notes
-          <textarea value={form.notes} onChange={(event) => updateField('notes', event.target.value)} placeholder="Important points, links, or doubts" />
-        </label>
-        <label>
-          Upload PDF or Photos
-          <input
-            key={fileInputKey}
-            type="file"
-            multiple
-            accept="application/pdf,image/png,image/jpeg,image/webp"
-            onChange={(event) => setNoteFiles(Array.from(event.target.files || []))}
-          />
-          {noteFiles.length > 0 && <span className="file-count">{noteFiles.length} file{noteFiles.length === 1 ? '' : 's'} selected</span>}
-        </label>
+        <button className="notes-editor-card" type="button" onClick={() => setNotesEditorOpen(true)}>
+          <span>
+            <strong>Notes & Files</strong>
+            <small>
+              {form.notes || noteFiles.length
+                ? `${form.notes ? 'Text notes added' : 'No text notes'}${noteFiles.length ? ` · ${noteFiles.length} file${noteFiles.length === 1 ? '' : 's'}` : ''}`
+                : 'Add long notes, PDFs, or photos'}
+            </small>
+          </span>
+          <ChevronRight size={18} />
+        </button>
         <button className="secondary-btn" type="button" onClick={generateSchedule} disabled={saving}>
           <CalendarCheck size={18} />
           Generate Schedule
