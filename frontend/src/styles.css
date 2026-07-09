@@ -1387,7 +1387,7 @@ h1 {
 
 .add-notes-panel {
   display: grid;
-  grid-template-rows: minmax(280px, 1fr) auto auto auto;
+  grid-template-rows: minmax(450px, 1fr) auto auto auto;
   gap: 16px;
   min-height: calc(100vh - 170px);
 }
