@@ -1398,6 +1398,7 @@ h1 {
   margin: 0;
   color: var(--muted);
   font-weight: 800;
+  font-size: 0;
 }
 
 .add-notes-panel textarea {
@@ -1409,6 +1410,7 @@ h1 {
   background: var(--panel);
   color: var(--ink);
   font: inherit;
+  font-size: 16px;
   line-height: 1.7;
 }
 
