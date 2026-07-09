@@ -1,4 +1,4 @@
-this package com.smartrevision.scheduler.service;
+package com.smartrevision.scheduler.service;
 
 import com.smartrevision.scheduler.api.DayCountResponse;
 import com.smartrevision.scheduler.api.DashboardResponse;
