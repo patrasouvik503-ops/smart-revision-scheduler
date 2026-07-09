@@ -1387,14 +1387,14 @@ h1 {
 
 .add-notes-panel {
   display: grid;
-  grid-template-rows: minmax(450px, 1fr) auto auto auto;
+  grid-template-rows: minmax(280px, 1fr) auto auto auto;
   gap: 16px;
   min-height: calc(100vh - 170px);
 }
 
 .add-notes-panel label {
-  display: none;
-  gap: 0;
+  display: grid;
+  gap: 8px;
   margin: 0;
   color: var(--muted);
   font-weight: 800;
@@ -1409,7 +1409,6 @@ h1 {
   background: var(--panel);
   color: var(--ink);
   font: inherit;
-  font-size: 16px;
   line-height: 1.7;
 }
 
