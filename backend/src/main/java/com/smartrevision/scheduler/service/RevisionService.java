@@ -1,4 +1,4 @@
-package com.smartrevision.scheduler.service;
+this package com.smartrevision.scheduler.service;
 
 import com.smartrevision.scheduler.api.DayCountResponse;
 import com.smartrevision.scheduler.api.DashboardResponse;
@@ -26,6 +26,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RevisionService {
 
+    private static final ZoneId INDIA_ZONE = ZoneId.of("Asia/Kolkata");
+
     private final RevisionRepository revisionRepository;
     private final TopicRepository topicRepository;
 
@@ -36,7 +38,7 @@ public class RevisionService {
 
     @Transactional
     public List<RevisionResponse> today(Long userId) {
-        return dueRevisionsUntil(userId, LocalDate.now());
+        return dueRevisionsUntil(userId, LocalDate.now(INDIA_ZONE));
     }
 
     @Transactional
@@ -49,7 +51,7 @@ public class RevisionService {
 
     @Transactional
     public DashboardResponse dashboard(Long userId) {
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(INDIA_ZONE);
         List<RevisionResponse> todayRevisions = dueRevisionsUntil(userId, today);
         List<RevisionResponse> tomorrow = revisionsOn(userId, today.plusDays(1));
         List<RevisionResponse> nextWeek = calendar(userId, today.plusDays(2), today.plusDays(7));
@@ -69,8 +71,8 @@ public class RevisionService {
 
     @Transactional
     public StatisticsResponse statistics(Long userId) {
-        ZoneId zone = ZoneId.systemDefault();
-        LocalDate today = LocalDate.now();
+        ZoneId zone = INDIA_ZONE;
+        LocalDate today = LocalDate.now(INDIA_ZONE);
         LocalDate weekStart = today.with(DayOfWeek.MONDAY);
         LocalDate heatmapStart = today.minusDays(90);
 
@@ -149,9 +151,9 @@ public class RevisionService {
     }
 
     private long calculateCurrentStreak(Long userId) {
-        ZoneId zone = ZoneId.systemDefault();
+        ZoneId zone = INDIA_ZONE;
         long streak = 0;
-        LocalDate cursor = LocalDate.now();
+        LocalDate cursor = LocalDate.now(INDIA_ZONE);
 
         while (true) {
             Instant startOfDay = cursor.atStartOfDay(zone).toInstant();
@@ -200,7 +202,7 @@ public class RevisionService {
             return false;
         }
         LocalDate completedDate = revision.getCompletedAt()
-                .atZone(ZoneId.systemDefault())
+                .atZone(INDIA_ZONE)
                 .toLocalDate();
         return !completedDate.isAfter(revision.getRevisionDate());
     }
