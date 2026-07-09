@@ -52,7 +52,7 @@ public class RevisionService {
     @Transactional
     public DashboardResponse dashboard(Long userId) {
         LocalDate today = LocalDate.now(INDIA_ZONE);
-        List<RevisionResponse> todayRevisions = dueRevisionsUntil(userId, today);
+        List<RevisionResponse> todayRevisions = revisionsOn(userId, today);
         List<RevisionResponse> tomorrow = revisionsOn(userId, today.plusDays(1));
         List<RevisionResponse> nextWeek = calendar(userId, today.plusDays(2), today.plusDays(7));
         long topicsLearned = topicRepository.countByUserId(userId);
