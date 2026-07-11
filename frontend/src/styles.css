@@ -3635,6 +3635,81 @@ h1 {
   padding: 100px 30px 104px;
 }
 
+.app-shell.theme-dark .mobile-topbar {
+  border-bottom-color: #1f2937;
+  background: #0f172a;
+  color: #f8fafc;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+}
+
+.app-shell.theme-dark .mobile-brand {
+  color: #f8fafc;
+}
+
+.app-shell.theme-dark .hamburger,
+.app-shell.theme-dark .header-action-btn,
+.app-shell.theme-dark .drawer-close {
+  border-color: #334155;
+  background: #111827;
+  color: #e5e7eb;
+}
+
+.app-shell.theme-dark .hamburger span,
+.app-shell.theme-dark .drawer-close::before,
+.app-shell.theme-dark .drawer-close::after {
+  background: #e5e7eb;
+}
+
+.app-shell.theme-dark .hamburger:hover,
+.app-shell.theme-dark .header-action-btn:hover,
+.app-shell.theme-dark .drawer-close:hover {
+  border-color: #4f46e5;
+  background: #1e293b;
+  color: #c7d2fe;
+}
+
+.app-shell.theme-dark .drawer-overlay {
+  background: rgba(2, 6, 23, 0.72);
+}
+
+.app-shell.theme-dark .drawer-panel {
+  border-right-color: #1f2937;
+  background: #0f172a;
+  color: #f8fafc;
+  box-shadow: 12px 0 40px rgba(0, 0, 0, 0.42);
+}
+
+.app-shell.theme-dark .drawer-header strong {
+  color: #f8fafc;
+}
+
+.app-shell.theme-dark .drawer-item,
+.app-shell.theme-dark .secondary-link {
+  border-color: #1f2937;
+  background: #111827;
+  color: #e5e7eb;
+}
+
+.app-shell.theme-dark .drawer-item:hover,
+.app-shell.theme-dark .secondary-link:hover {
+  border-color: #4f46e5;
+  background: #1e293b;
+}
+
+.app-shell.theme-dark .drawer-item-icon {
+  background: #1e293b;
+  color: #c7d2fe;
+}
+
+.app-shell.theme-dark .drawer-secondary {
+  border-top-color: #1f2937;
+}
+
+.app-shell.theme-dark .secondary-link svg,
+.app-shell.theme-dark .drawer-item svg {
+  color: #cbd5e1;
+}
+
 @media (max-width: 767px) {
   .app-shell .mobile-topbar {
     padding: 14px 16px;
