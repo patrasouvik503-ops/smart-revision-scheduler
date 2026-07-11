@@ -133,6 +133,13 @@ export async function uploadNoteFiles(topicId, files) {
   return response.json();
 }
 
+export function updateTopicNotes(topicId, notes) {
+  return request(`/topics/${topicId}/notes`, {
+    method: 'PATCH',
+    body: JSON.stringify({ notes }),
+  });
+}
+
 export async function getNoteFileBlob(fileId) {
   const token = getStoredToken();
   const response = await fetch(`${API_BASE_URL}/topics/files/${fileId}`, {

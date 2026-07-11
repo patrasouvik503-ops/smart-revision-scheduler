@@ -93,6 +93,14 @@ public class TopicService {
     }
 
     @Transactional
+    public TopicResponse updateNotes(Long userId, Long topicId, String notes) {
+        Topic topic = topicRepository.findByIdAndUserId(topicId, userId)
+                .orElseThrow(() -> new EntityNotFoundException("Topic not found"));
+        topic.setNotes(cleanNotes(notes));
+        return TopicResponse.from(topicRepository.save(topic));
+    }
+
+    @Transactional
     public void deleteTopic(Long userId, Long topicId) {
         Topic topic = topicRepository.findByIdAndUserId(topicId, userId)
                 .orElseThrow(() -> new EntityNotFoundException("Topic not found"));

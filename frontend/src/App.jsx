@@ -48,6 +48,7 @@ import {
   getStatistics,
   getStoredToken,
   login,
+  updateTopicNotes,
   loginWithGoogle,
   requestPasswordReset,
   requestRegistrationOtp,
@@ -362,7 +363,16 @@ function App() {
         {activeView === 'statistics' && <StatisticsView dashboard={dashboard} statistics={statistics} />}
       </main>
 
-      {selectedNotes && <NotesPage item={selectedNotes} onBack={closeNotes} />}
+      {selectedNotes && (
+        <NotesPage
+          item={selectedNotes}
+          onBack={closeNotes}
+          onSaved={(updatedItem) => {
+            setSelectedNotes(updatedItem);
+            refresh();
+          }}
+        />
+      )}
 
       <button className="fab" onClick={() => setActiveView('add')} title="Quick add topic">
         <Plus size={22} />
@@ -1133,11 +1143,9 @@ function RevisionCard({ item, onComplete, onDeleteTopic, onOpenNotes }) {
         <strong>{item.topicName}</strong>
         <span>Day {item.revisionDay}</span>
         <em>{item.subject}</em>
-        {(item.notes || item.noteFiles?.length > 0) && (
-          <button className="notes-link" type="button" onClick={() => onOpenNotes(item)}>
-            View Notes / Files
-          </button>
-        )}
+        <button className="notes-link" type="button" onClick={() => onOpenNotes(item)}>
+          Notes / Files
+        </button>
       </div>
       {onDeleteTopic && (
         <button className="delete-topic-btn" type="button" onClick={() => onDeleteTopic(item.topicId, item.topicName)} title="Delete topic">
@@ -1489,11 +1497,9 @@ function CalendarView({ items, onComplete, onDeleteTopic, onOpenNotes }) {
                   <strong>{item.topicName}</strong>
                   <span>Day {item.revisionDay}</span>
                   <em>{item.subject}</em>
-                  {(item.notes || item.noteFiles?.length > 0) && (
-                    <button className="notes-link" type="button" onClick={() => onOpenNotes(item)}>
-                      View Notes / Files
-                    </button>
-                  )}
+                  <button className="notes-link" type="button" onClick={() => onOpenNotes(item)}>
+                    Notes / Files
+                  </button>
                 </div>
                 <div className="calendar-item-actions">
                   {item.completed && <span className="status-pill done"><Check size={14} /> Completed</span>}
@@ -1519,34 +1525,132 @@ function CalendarView({ items, onComplete, onDeleteTopic, onOpenNotes }) {
   );
 }
 
-function NotesPage({ item, onBack }) {
+function NotesPage({ item, onBack, onSaved }) {
+  const [currentItem, setCurrentItem] = useState(item);
+  const [editMode, setEditMode] = useState(false);
+  const [editedNotes, setEditedNotes] = useState(item.notes || '');
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [files, setFiles] = useState(item.noteFiles || []);
+
+  useEffect(() => {
+    setCurrentItem(item);
+    setEditedNotes(item.notes || '');
+    setFiles(item.noteFiles || []);
+  }, [item]);
+
+  async function handleSave() {
+    if (saving) return;
+    setSaving(true);
+    try {
+      const topicId = currentItem.topicId || currentItem.id;
+      const updatedTopic = await updateTopicNotes(topicId, editedNotes || null);
+      let nextFiles = updatedTopic.noteFiles || files;
+      if (selectedFiles && selectedFiles.length > 0) {
+        const added = await uploadNoteFiles(topicId, selectedFiles);
+        nextFiles = [...nextFiles, ...added];
+        setSelectedFiles([]);
+      }
+      const nextItem = {
+        ...currentItem,
+        notes: updatedTopic.notes || '',
+        noteFiles: nextFiles,
+      };
+      setCurrentItem(nextItem);
+      setEditedNotes(nextItem.notes || '');
+      setFiles(nextFiles);
+      onSaved?.(nextItem);
+      setEditMode(false);
+    } catch (err) {
+      alert(`Could not save notes: ${err.message}`);
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <div className="notes-page-backdrop">
       <section className="notes-page panel">
         <div className="notes-page-header">
           <div>
             <p className="eyebrow">Topic notes</p>
-            <h2>{item.topicName}</h2>
+            <h2>{currentItem.topicName}</h2>
           </div>
-          <button className="secondary-btn" type="button" onClick={onBack}>
-            Back
-          </button>
+          <div>
+            {!editMode && (
+              <button className="secondary-btn" type="button" onClick={() => setEditMode(true)}>
+                Edit
+              </button>
+            )}
+            <button className="secondary-btn" type="button" onClick={onBack}>
+              Back
+            </button>
+          </div>
         </div>
         <div className="notes-meta">
-          <span><strong>Subject:</strong> {item.subject}</span>
-          <span><strong>Revision:</strong> Day {item.revisionDay}</span>
-          <span><strong>Date:</strong> {formatDate(item.revisionDate)}</span>
+          <span><strong>Subject:</strong> {currentItem.subject}</span>
+          {currentItem.revisionDay && <span><strong>Revision:</strong> Day {currentItem.revisionDay}</span>}
+          {currentItem.revisionDate && <span><strong>Date:</strong> {formatDate(currentItem.revisionDate)}</span>}
         </div>
-        {item.notes ? (
-          <article className="notes-body">
-            {item.notes}
-          </article>
-        ) : (
-          <div className="notes-empty-file-only">
-            No text notes added. Uploaded files are shown below.
+
+        {editMode ? (
+          <div className="panel add-notes-panel">
+            <label>
+              Notes
+              <textarea
+                value={editedNotes}
+                onChange={(e) => setEditedNotes(e.target.value)}
+                placeholder="Write important points, formulas, links, doubts, or revision hints here"
+                autoFocus
+              />
+            </label>
+
+            <label className="upload-zone">
+              <span>Upload PDF or Photos</span>
+              <strong>{selectedFiles.length ? `${selectedFiles.length} file${selectedFiles.length === 1 ? '' : 's'} selected` : 'Choose files'}</strong>
+              <small>PDF, PNG, JPG, or WEBP</small>
+              <input
+                type="file"
+                multiple
+                accept="application/pdf,image/png,image/jpeg,image/webp"
+                onChange={(event) => setSelectedFiles(Array.from(event.target.files || []))}
+              />
+            </label>
+
+            {selectedFiles.length > 0 && (
+              <div className="selected-file-list">
+                {selectedFiles.map((file) => (
+                  <div key={`${file.name}-${file.size}`}>
+                    <span>{file.name}</span>
+                    <small>{formatFileSize(file.size)}</small>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button className="primary-btn" type="button" onClick={handleSave} disabled={saving}>
+                Save
+              </button>
+              <button className="secondary-btn" type="button" onClick={() => { setEditMode(false); setSelectedFiles([]); setEditedNotes(currentItem.notes || ''); }}>
+                Cancel
+              </button>
+            </div>
           </div>
+        ) : (
+          <>
+            {currentItem.notes ? (
+              <article className="notes-body">
+                {currentItem.notes}
+              </article>
+            ) : (
+              <div className="notes-empty-file-only">
+                No text notes added. Uploaded files are shown below.
+              </div>
+            )}
+            <AttachmentList files={files} />
+          </>
         )}
-        <AttachmentList files={item.noteFiles || []} />
       </section>
     </div>
   );
