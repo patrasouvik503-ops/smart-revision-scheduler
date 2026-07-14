@@ -91,6 +91,7 @@ const initialStatistics = {
 };
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+const THEME_KEY = 'smart_revision_theme';
 const revisionDays = [1, 3, 7, 14, 30, 60, 90];
 const monthNames = [
   'January',
@@ -116,9 +117,13 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [menuQuery, setMenuQuery] = useState('');
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem(THEME_KEY) === 'dark');
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedNotes, setSelectedNotes] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem(THEME_KEY, darkMode ? 'dark' : 'light');
+  }, [darkMode]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -133,6 +138,10 @@ function App() {
 
   function toggleMenu() {
     setMenuOpen((value) => !value);
+  }
+
+  function toggleDarkMode() {
+    setDarkMode((value) => !value);
   }
 
   async function refresh() {
@@ -280,7 +289,7 @@ function App() {
             <button className="icon-btn" onClick={handleNotify} title="Send browser notification">
               <Bell size={18} />
             </button>
-            <button className="icon-btn secondary" onClick={() => setDarkMode((value) => !value)} title="Dark mode">
+            <button className="icon-btn secondary" onClick={toggleDarkMode} title="Dark mode">
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <div className="profile-chip" title="Profile">
@@ -336,7 +345,7 @@ function App() {
               </button>
             </div>
             <div className="drawer-secondary">
-              <button className="secondary-link" onClick={() => { setDarkMode((value) => !value); closeMenu(); }}>
+              <button className="secondary-link" onClick={() => { toggleDarkMode(); closeMenu(); }}>
                 <Moon size={18} />
                 {darkMode ? 'Light mode' : 'Dark mode'}
               </button>
