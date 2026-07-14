@@ -1576,16 +1576,9 @@ function NotesPage({ item, onBack, onSaved }) {
             <p className="eyebrow">Topic notes</p>
             <h2>{currentItem.topicName}</h2>
           </div>
-          <div>
-            {!editMode && (
-              <button className="secondary-btn" type="button" onClick={() => setEditMode(true)}>
-                Edit
-              </button>
-            )}
-            <button className="secondary-btn" type="button" onClick={onBack}>
-              Back
-            </button>
-          </div>
+          <button className="secondary-btn notes-back-btn" type="button" onClick={onBack}>
+            Back
+          </button>
         </div>
         <div className="notes-meta">
           <span><strong>Subject:</strong> {currentItem.subject}</span>
@@ -1639,6 +1632,11 @@ function NotesPage({ item, onBack, onSaved }) {
           </div>
         ) : (
           <>
+            <div className="notes-toolbar">
+              <button className="secondary-btn" type="button" onClick={() => setEditMode(true)}>
+                Edit
+              </button>
+            </div>
             {currentItem.notes ? (
               <article className="notes-body">
                 {currentItem.notes}
