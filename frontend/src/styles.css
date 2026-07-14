@@ -1064,6 +1064,11 @@ h1 {
   font-size: 16px;
 }
 
+.theme-dark .upcoming-group h3,
+.theme-dark .calendar-month h3 {
+  color: #f8fafc;
+}
+
 .upcoming-item,
 .upcoming-date-group,
 .schedule-item,
@@ -1075,6 +1080,13 @@ h1 {
   border-top: 1px solid var(--line);
 }
 
+.theme-dark .upcoming-item,
+.theme-dark .upcoming-date-group,
+.theme-dark .schedule-item,
+.theme-dark .calendar-row {
+  border-top-color: #1f2937;
+}
+
 .upcoming-item span,
 .upcoming-date-group > span,
 .schedule-item span,
@@ -1082,6 +1094,14 @@ h1 {
 .calendar-row em {
   color: var(--muted);
   font-style: normal;
+}
+
+.theme-dark .upcoming-item span,
+.theme-dark .upcoming-date-group > span,
+.theme-dark .schedule-item span,
+.theme-dark .calendar-row span,
+.theme-dark .calendar-row em {
+  color: #cbd5e1;
 }
 
 .upcoming-date-group > div {
@@ -1093,6 +1113,13 @@ h1 {
   display: block;
 }
 
+.theme-dark .upcoming-date-group strong,
+.theme-dark .upcoming-item strong,
+.theme-dark .schedule-item strong,
+.theme-dark .calendar-row strong {
+  color: #f8fafc;
+}
+
 .upcoming-date-group em {
   display: block;
   margin-top: 3px;
@@ -1100,6 +1127,10 @@ h1 {
   font-size: 13px;
   font-style: normal;
   font-weight: 600;
+}
+
+.theme-dark .upcoming-date-group em {
+  color: #cbd5e1;
 }
 
 .calendar-row {
@@ -2743,6 +2774,10 @@ h1 {
 .empty {
   margin-bottom: 0;
   color: var(--muted);
+}
+
+.theme-dark .empty {
+  color: #cbd5e1;
 }
 
 .compact {
