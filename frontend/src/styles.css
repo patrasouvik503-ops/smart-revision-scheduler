@@ -3843,6 +3843,143 @@ h1 {
   color: #cbd5e1;
 }
 
+/* Neutral charcoal dark theme, closer to Codex/LeetCode dark surfaces. */
+.theme-dark,
+.app-shell.theme-dark {
+  --ink: #f3f4f6;
+  --muted: #b4b4b4;
+  --line: #343434;
+  --panel: #202020;
+  --bg: #181818;
+  --primary: #8b7cf6;
+  --primary-dark: #6f5df2;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.34);
+  background: #181818;
+  color: #f3f4f6;
+}
+
+.app-shell.theme-dark .mobile-topbar,
+.app-shell.theme-dark .drawer-panel {
+  border-color: #303030;
+  background: #1f1f1f;
+  color: #f3f4f6;
+}
+
+.app-shell.theme-dark .content,
+.theme-dark .notes-page-backdrop {
+  background: #181818;
+}
+
+.theme-dark .panel,
+.theme-dark .stat,
+.theme-dark .goal-card,
+.theme-dark .memory-card,
+.theme-dark .revision-focus,
+.theme-dark .notes-page,
+.theme-dark .notes-body,
+.theme-dark .notes-empty-file-only,
+.theme-dark .notes-meta span,
+.theme-dark .attachment-card,
+.theme-dark .pdf-preview,
+.theme-dark .statistics-summary,
+.theme-dark .statistics-summary div,
+.theme-dark .calendar-cell,
+.theme-dark .day-modal,
+.theme-dark .add-notes-panel,
+.theme-dark .topic-form input,
+.theme-dark .topic-form select,
+.theme-dark .topic-form textarea,
+.theme-dark .add-notes-panel textarea,
+.theme-dark .selected-file-list div {
+  border-color: #343434;
+  background: #202020;
+  color: #f3f4f6;
+}
+
+.theme-dark .goal-metrics div,
+.theme-dark .empty-state,
+.theme-dark .status-pill.locked,
+.theme-dark .locked-complete,
+.theme-dark .complete-btn,
+.theme-dark .progress-ring div,
+.app-shell.theme-dark .hamburger,
+.app-shell.theme-dark .header-action-btn,
+.app-shell.theme-dark .drawer-close,
+.app-shell.theme-dark .drawer-item,
+.app-shell.theme-dark .secondary-link,
+.app-shell.theme-dark .drawer-item-icon {
+  border-color: #343434;
+  background: #292929;
+  color: #f3f4f6;
+}
+
+.theme-dark .revision-card {
+  border-color: #343434;
+  background: linear-gradient(180deg, #202020, #242424);
+}
+
+.theme-dark .panel-heading span {
+  background: #2b2b2b;
+  color: #d8d3ff;
+}
+
+.theme-dark .revision-card span,
+.theme-dark .revision-card em,
+.theme-dark .goal-metrics span,
+.theme-dark .memory-card span,
+.theme-dark .stat span,
+.theme-dark .upcoming-date-group > span,
+.theme-dark .upcoming-date-group em,
+.theme-dark .empty,
+.theme-dark .empty-state,
+.theme-dark .notes-meta strong,
+.theme-dark .calendar-row span,
+.theme-dark .calendar-row em,
+.theme-dark .schedule-item span {
+  color: #b4b4b4;
+}
+
+.theme-dark h1,
+.theme-dark h2,
+.theme-dark h3,
+.theme-dark .panel-heading h2,
+.theme-dark .revision-card strong,
+.theme-dark .upcoming-date-group strong,
+.theme-dark .stat strong,
+.theme-dark .goal-metrics strong,
+.theme-dark .memory-card h2,
+.theme-dark .notes-page-header h2,
+.theme-dark .attachment-card strong,
+.theme-dark .statistics-summary strong {
+  color: #f3f4f6;
+}
+
+.theme-dark .eyebrow,
+.theme-dark .panel-heading .eyebrow {
+  color: #a3a3a3;
+}
+
+.app-shell.theme-dark .drawer-overlay {
+  background: rgba(0, 0, 0, 0.68);
+}
+
+.app-shell.theme-dark .hamburger:hover,
+.app-shell.theme-dark .header-action-btn:hover,
+.app-shell.theme-dark .drawer-close:hover,
+.app-shell.theme-dark .drawer-item:hover,
+.app-shell.theme-dark .secondary-link:hover,
+.theme-dark .icon-btn.secondary:hover {
+  border-color: #4a4a4a;
+  background: #303030;
+  color: #ffffff;
+}
+
+.app-shell.theme-dark .hamburger span,
+.app-shell.theme-dark .drawer-close::before,
+.app-shell.theme-dark .drawer-close::after {
+  background: #f3f4f6;
+}
+
 @media (max-width: 767px) {
   .app-shell .mobile-topbar {
     padding: 14px 16px;
