@@ -120,6 +120,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem(THEME_KEY) === 'dark');
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedNotes, setSelectedNotes] = useState(null);
+  const [navigationHistory, setNavigationHistory] = useState([{ view: 'dashboard', notes: null }]);
+  const [navigationIndex, setNavigationIndex] = useState(0);
 
   useEffect(() => {
     localStorage.setItem(THEME_KEY, darkMode ? 'dark' : 'light');
@@ -142,6 +144,44 @@ function App() {
 
   function toggleDarkMode() {
     setDarkMode((value) => !value);
+  }
+
+  function applyNavigation(entry) {
+    setActiveView(entry.view);
+    setSelectedNotes(entry.notes || null);
+    setMenuOpen(false);
+  }
+
+  function pushNavigation(entry) {
+    setNavigationHistory((current) => {
+      const next = current.slice(0, navigationIndex + 1);
+      next.push(entry);
+      return next;
+    });
+    setNavigationIndex((current) => current + 1);
+    applyNavigation(entry);
+  }
+
+  function navigateToView(view) {
+    if (activeView === view && !selectedNotes) {
+      closeMenu();
+      return;
+    }
+    pushNavigation({ view, notes: null });
+  }
+
+  function goBack() {
+    if (navigationIndex <= 0) return;
+    const nextIndex = navigationIndex - 1;
+    setNavigationIndex(nextIndex);
+    applyNavigation(navigationHistory[nextIndex]);
+  }
+
+  function goForward() {
+    if (navigationIndex >= navigationHistory.length - 1) return;
+    const nextIndex = navigationIndex + 1;
+    setNavigationIndex(nextIndex);
+    applyNavigation(navigationHistory[nextIndex]);
   }
 
   async function refresh() {
@@ -214,13 +254,21 @@ function App() {
     clearToken();
     setIsAuthenticated(false);
     setDashboard(initialDashboard);
+    setActiveView('dashboard');
+    setSelectedNotes(null);
+    setNavigationHistory([{ view: 'dashboard', notes: null }]);
+    setNavigationIndex(0);
   }
 
   function openNotes(item) {
-    setSelectedNotes(item);
+    pushNavigation({ view: activeView, notes: item });
   }
 
   function closeNotes() {
+    if (navigationIndex > 0) {
+      goBack();
+      return;
+    }
     setSelectedNotes(null);
   }
 
@@ -237,6 +285,14 @@ function App() {
             <span />
             <span />
           </button>
+          <div className="history-controls" aria-label="Page navigation">
+            <button className="history-btn" type="button" onClick={goBack} disabled={navigationIndex <= 0} title="Back" aria-label="Back">
+              <ArrowLeft size={18} />
+            </button>
+            <button className="history-btn" type="button" onClick={goForward} disabled={navigationIndex >= navigationHistory.length - 1} title="Forward" aria-label="Forward">
+              <ArrowRight size={18} />
+            </button>
+          </div>
           <div className="mobile-brand">
             <span className="brand-mark">SR</span>
             <span>Smart Revision</span>
@@ -257,19 +313,19 @@ function App() {
           <span className="brand-mark">SR</span>
           <span>Smart Revision</span>
         </div>
-        <button className={activeView === 'dashboard' ? 'nav-btn active' : 'nav-btn'} onClick={() => setActiveView('dashboard')} title="Home">
+        <button className={activeView === 'dashboard' ? 'nav-btn active' : 'nav-btn'} onClick={() => navigateToView('dashboard')} title="Home">
           <LayoutDashboard size={18} />
           Home
         </button>
-        <button className={activeView === 'add' ? 'nav-btn active' : 'nav-btn'} onClick={() => setActiveView('add')} title="Add topic">
+        <button className={activeView === 'add' ? 'nav-btn active' : 'nav-btn'} onClick={() => navigateToView('add')} title="Add topic">
           <Plus size={18} />
           Add Topic
         </button>
-        <button className={activeView === 'calendar' ? 'nav-btn active' : 'nav-btn'} onClick={() => setActiveView('calendar')} title="Calendar">
+        <button className={activeView === 'calendar' ? 'nav-btn active' : 'nav-btn'} onClick={() => navigateToView('calendar')} title="Calendar">
           <CalendarDays size={18} />
           Calendar
         </button>
-        <button className={activeView === 'statistics' ? 'nav-btn active' : 'nav-btn'} onClick={() => setActiveView('statistics')} title="Statistics">
+        <button className={activeView === 'statistics' ? 'nav-btn active' : 'nav-btn'} onClick={() => navigateToView('statistics')} title="Statistics">
           <BarChart3 size={18} />
           Statistics
         </button>
@@ -323,22 +379,22 @@ function App() {
               />
             </div>
             <div className="drawer-content">
-              <button className="drawer-item" onClick={() => { setActiveView('dashboard'); closeMenu(); }}>
+              <button className="drawer-item" onClick={() => navigateToView('dashboard')}>
                 <div className="drawer-item-icon"><LayoutDashboard size={18} /></div>
                 <span>Home</span>
                 <ChevronRight size={18} />
               </button>
-              <button className="drawer-item" onClick={() => { setActiveView('add'); closeMenu(); }}>
+              <button className="drawer-item" onClick={() => navigateToView('add')}>
                 <div className="drawer-item-icon"><Plus size={18} /></div>
                 <span>Add Topic</span>
                 <ChevronRight size={18} />
               </button>
-              <button className="drawer-item" onClick={() => { setActiveView('calendar'); closeMenu(); }}>
+              <button className="drawer-item" onClick={() => navigateToView('calendar')}>
                 <div className="drawer-item-icon"><CalendarDays size={18} /></div>
                 <span>Calendar</span>
                 <ChevronRight size={18} />
               </button>
-              <button className="drawer-item" onClick={() => { setActiveView('statistics'); closeMenu(); }}>
+              <button className="drawer-item" onClick={() => navigateToView('statistics')}>
                 <div className="drawer-item-icon"><BarChart3 size={18} /></div>
                 <span>Statistics</span>
                 <ChevronRight size={18} />
@@ -378,12 +434,17 @@ function App() {
           onBack={closeNotes}
           onSaved={(updatedItem) => {
             setSelectedNotes(updatedItem);
+            setNavigationHistory((current) =>
+              current.map((entry, index) =>
+                index === navigationIndex ? { ...entry, notes: updatedItem } : entry
+              )
+            );
             refresh();
           }}
         />
       )}
 
-      <button className="fab" onClick={() => setActiveView('add')} title="Quick add topic">
+      <button className="fab" onClick={() => navigateToView('add')} title="Quick add topic">
         <Plus size={22} />
         <span>Add Topic</span>
       </button>

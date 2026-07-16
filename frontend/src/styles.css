@@ -3676,6 +3676,37 @@ h1 {
   gap: 12px;
 }
 
+.history-controls {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.history-btn {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  background: #fff;
+  color: #475569;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+}
+
+.history-btn:hover:not(:disabled) {
+  border-color: #d8deea;
+  background: #f8fafc;
+  color: #4f46e5;
+}
+
+.history-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
 .app-header-actions {
   flex: 0 0 auto;
   gap: 12px;
@@ -3780,6 +3811,7 @@ h1 {
 }
 
 .app-shell.theme-dark .hamburger,
+.app-shell.theme-dark .history-btn,
 .app-shell.theme-dark .header-action-btn,
 .app-shell.theme-dark .drawer-close {
   border-color: #334155;
@@ -3794,6 +3826,7 @@ h1 {
 }
 
 .app-shell.theme-dark .hamburger:hover,
+.app-shell.theme-dark .history-btn:hover:not(:disabled),
 .app-shell.theme-dark .header-action-btn:hover,
 .app-shell.theme-dark .drawer-close:hover {
   border-color: #4f46e5;
@@ -3905,6 +3938,7 @@ h1 {
 .theme-dark .complete-btn,
 .theme-dark .progress-ring div,
 .app-shell.theme-dark .hamburger,
+.app-shell.theme-dark .history-btn,
 .app-shell.theme-dark .header-action-btn,
 .app-shell.theme-dark .drawer-close,
 .app-shell.theme-dark .drawer-item,
@@ -3968,6 +4002,7 @@ h1 {
 }
 
 .app-shell.theme-dark .hamburger:hover,
+.app-shell.theme-dark .history-btn:hover:not(:disabled),
 .app-shell.theme-dark .header-action-btn:hover,
 .app-shell.theme-dark .drawer-close:hover,
 .app-shell.theme-dark .drawer-item:hover,
@@ -4021,11 +4056,25 @@ h1 {
 
 @media (max-width: 767px) {
   .app-shell .mobile-topbar {
-    padding: 14px 16px;
+    gap: 10px;
+    padding: 14px 12px;
+  }
+
+  .app-header-left {
+    gap: 8px;
+  }
+
+  .history-controls {
+    gap: 4px;
+  }
+
+  .history-btn {
+    width: 34px;
+    height: 34px;
   }
 
   .app-header-actions {
-    gap: 8px;
+    gap: 6px;
   }
 
   .header-action-btn {
@@ -4035,6 +4084,15 @@ h1 {
 
   .mobile-brand {
     font-size: 18px;
+  }
+
+  .mobile-brand .brand-mark {
+    width: 36px;
+    height: 36px;
+  }
+
+  .mobile-brand span:last-child {
+    display: none;
   }
 
   .app-shell .content {
