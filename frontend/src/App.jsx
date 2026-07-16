@@ -107,6 +107,12 @@ const monthNames = [
   'November',
   'December',
 ];
+const appViews = ['dashboard', 'add', 'calendar', 'statistics'];
+
+const viewFromHash = () => {
+  const hash = window.location.hash.replace('#', '').replace('-notes', '');
+  return appViews.includes(hash) ? hash : 'dashboard';
+};
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(Boolean(getStoredToken()));
@@ -120,8 +126,6 @@ function App() {
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem(THEME_KEY) === 'dark');
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedNotes, setSelectedNotes] = useState(null);
-  const [navigationHistory, setNavigationHistory] = useState([{ view: 'dashboard', notes: null }]);
-  const [navigationIndex, setNavigationIndex] = useState(0);
 
   useEffect(() => {
     localStorage.setItem(THEME_KEY, darkMode ? 'dark' : 'light');
@@ -146,43 +150,31 @@ function App() {
     setDarkMode((value) => !value);
   }
 
-  function applyNavigation(entry) {
-    setActiveView(entry.view);
-    setSelectedNotes(entry.notes || null);
-    setMenuOpen(false);
-  }
-
-  function pushNavigation(entry) {
-    setNavigationHistory((current) => {
-      const next = current.slice(0, navigationIndex + 1);
-      next.push(entry);
-      return next;
-    });
-    setNavigationIndex((current) => current + 1);
-    applyNavigation(entry);
-  }
-
   function navigateToView(view) {
     if (activeView === view && !selectedNotes) {
       closeMenu();
       return;
     }
-    pushNavigation({ view, notes: null });
+    setActiveView(view);
+    setSelectedNotes(null);
+    closeMenu();
+    window.history.pushState({ view }, '', `#${view}`);
   }
 
-  function goBack() {
-    if (navigationIndex <= 0) return;
-    const nextIndex = navigationIndex - 1;
-    setNavigationIndex(nextIndex);
-    applyNavigation(navigationHistory[nextIndex]);
-  }
+  useEffect(() => {
+    function handlePopState(event) {
+      const view = event.state?.view || viewFromHash();
+      setActiveView(appViews.includes(view) ? view : 'dashboard');
+      setSelectedNotes(event.state?.notesOpen ? event.state.notes || null : null);
+      setMenuOpen(false);
+    }
 
-  function goForward() {
-    if (navigationIndex >= navigationHistory.length - 1) return;
-    const nextIndex = navigationIndex + 1;
-    setNavigationIndex(nextIndex);
-    applyNavigation(navigationHistory[nextIndex]);
-  }
+    const view = viewFromHash();
+    setActiveView(view);
+    window.history.replaceState({ view }, '', `#${view}`);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   async function refresh() {
     setLoading(true);
@@ -256,20 +248,16 @@ function App() {
     setDashboard(initialDashboard);
     setActiveView('dashboard');
     setSelectedNotes(null);
-    setNavigationHistory([{ view: 'dashboard', notes: null }]);
-    setNavigationIndex(0);
+    window.history.replaceState({ view: 'dashboard' }, '', '#dashboard');
   }
 
   function openNotes(item) {
-    pushNavigation({ view: activeView, notes: item });
+    setSelectedNotes(item);
+    window.history.pushState({ view: activeView, notesOpen: true, notes: item }, '', `${window.location.hash || `#${activeView}`}-notes`);
   }
 
   function closeNotes() {
-    if (navigationIndex > 0) {
-      goBack();
-      return;
-    }
-    setSelectedNotes(null);
+    window.history.back();
   }
 
   if (!isAuthenticated) {
@@ -285,14 +273,6 @@ function App() {
             <span />
             <span />
           </button>
-          <div className="history-controls" aria-label="Page navigation">
-            <button className="history-btn" type="button" onClick={goBack} disabled={navigationIndex <= 0} title="Back" aria-label="Back">
-              <ArrowLeft size={18} />
-            </button>
-            <button className="history-btn" type="button" onClick={goForward} disabled={navigationIndex >= navigationHistory.length - 1} title="Forward" aria-label="Forward">
-              <ArrowRight size={18} />
-            </button>
-          </div>
           <div className="mobile-brand">
             <span className="brand-mark">SR</span>
             <span>Smart Revision</span>
@@ -434,11 +414,6 @@ function App() {
           onBack={closeNotes}
           onSaved={(updatedItem) => {
             setSelectedNotes(updatedItem);
-            setNavigationHistory((current) =>
-              current.map((entry, index) =>
-                index === navigationIndex ? { ...entry, notes: updatedItem } : entry
-              )
-            );
             refresh();
           }}
         />
