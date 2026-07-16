@@ -1487,6 +1487,7 @@ function CalendarView({ items, onComplete, onDeleteTopic, onOpenNotes }) {
     return acc;
   }, {});
   const selectedItems = selectedDate ? grouped[selectedDate] || [] : [];
+  const today = todayIso();
 
   return (
     <section className="panel calendar-panel">
@@ -1514,10 +1515,10 @@ function CalendarView({ items, onComplete, onDeleteTopic, onOpenNotes }) {
         ))}
         {cells.map((date, index) => {
           if (!date) return <span className="calendar-cell blank" key={`blank-${index}`} />;
-      const iso = toLocalIsoDate(date);
+          const iso = toLocalIsoDate(date);
           const dateItems = grouped[iso] || [];
           return (
-            <button className="calendar-cell" key={iso} onClick={() => setSelectedDate(iso)} type="button">
+            <button className={iso === today ? 'calendar-cell today' : 'calendar-cell'} key={iso} onClick={() => setSelectedDate(iso)} type="button">
               <span>{date.getDate()}</span>
               {dateItems.slice(0, 3).map((item) => (
                 <em key={item.id}>{item.topicName} (Day {item.revisionDay})</em>
